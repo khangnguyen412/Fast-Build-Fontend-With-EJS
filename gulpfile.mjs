@@ -16,7 +16,12 @@ const sassCompiler = gulpSass(sass);
 
 function library() {
     return gulp.src(['./src/lib/**/*'])
-        .pipe(gulp.dest('templates/lib'));
+        .pipe(gulp.dest('./templates/lib'));
+}
+
+function getfile() {
+    return gulp.src(['./src/views/getfile.php'])
+        .pipe(gulp.dest('./templates'));
 }
 
 function styles() {
@@ -65,4 +70,4 @@ function clean() {
     return del(['templates/**/*', '!templates/images', '!templates/images/**/*']);
 }
 
-export default gulp.series(clean, gulp.parallel(library, styles, scripts, images, views), watch);
+export default gulp.series(clean, gulp.parallel(library, getfile, styles, scripts, images, views), watch);
