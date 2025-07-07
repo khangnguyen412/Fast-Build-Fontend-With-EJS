@@ -70,4 +70,6 @@ function clean() {
     return del(['templates/**/*', '!templates/images', '!templates/images/**/*']);
 }
 
-export default gulp.series(clean, gulp.parallel(library, getfile, styles, scripts, images, views), watch);
+const build = gulp.parallel(library, getfile, styles, scripts, images, views);
+
+export default gulp.series(clean, build, watch);

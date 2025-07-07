@@ -35,4 +35,9 @@ npm install --save-dev del
 ```
 gulp
 ```
+- View web:
+```
+http://localhost:3000/
+http://localhost:3000/home.html (don't access to: http://localhost:3000/home)
+```
 The source was set up by KhangNguyen — do not copy
