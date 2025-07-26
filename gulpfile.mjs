@@ -2,9 +2,6 @@ import gulp from 'gulp';
 import sass from 'sass';
 import gulpSass from 'gulp-sass';
 import autoprefixer from 'gulp-autoprefixer';
-import cleanCSS from 'gulp-clean-css';
-import uglify from 'gulp-uglify';
-import concat from 'gulp-concat';
 import imagemin from 'gulp-imagemin';
 import browserSync from 'browser-sync';
 import ejs from 'gulp-ejs';
@@ -16,7 +13,8 @@ const sassCompiler = gulpSass(sass);
 
 function library() {
     return gulp.src(['./src/lib/**/*'])
-        .pipe(gulp.dest('./templates/lib'));
+        .pipe(gulp.dest('./templates/lib'))
+        .pipe(browserSync.stream());
 }
 
 function getfile() {
@@ -27,16 +25,13 @@ function getfile() {
 function styles() {
     return gulp.src('./src/scss/**/*.scss')
         .pipe(sassCompiler().on('error', sassCompiler.logError))
-        .pipe(autoprefixer())
-        .pipe(cleanCSS())
+        .pipe(autoprefixer({ overrideBrowserslist: ['last 2 versions'], cascade: false }))
         .pipe(gulp.dest('./templates/css'))
         .pipe(browserSync.stream());
 }
 
 function scripts() {
     return gulp.src('./src/js/**/*.js')
-        .pipe(concat('main.js'))
-        .pipe(uglify())
         .pipe(gulp.dest('./templates/js'))
         .pipe(browserSync.stream());
 }
@@ -48,7 +43,7 @@ function images() {
 }
 
 function views() {
-    return gulp.src(['src/views/*.ejs', '!src/views/_*.ejs', '!src/views/layouts/*.ejs', '!src/views/partials/*.ejs'])
+    return gulp.src(['src/views/*.ejs', '!src/views/_*.ejs', '!src/views/layouts/*.ejs', '!src/views/partials/*.ejs', '!src/views/blocks/*.ejs'])
         .pipe(ejs())
         .pipe(rename({ extname: '.html' }))
         .pipe(gulp.dest('./templates'));
